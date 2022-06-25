@@ -1,14 +1,16 @@
 package com.tehtech.watchlist.dao;
 
-import com.tehtech.watchlist.entity.Stock;
+
+import java.util.List;
 import com.tehtech.watchlist.entity.StockWatchlist;
 import com.tehtech.watchlist.entity.User;
 import com.tehtech.watchlist.entity.Watchlist;
 
 public interface StockWatchlistDao {
 
-   StockWatchlist saveWatchlist(User user, Watchlist watchlistName);   
-   Watchlist saveSymbols(User user, Watchlist watchlistName, Stock symbol);
-   void deleteSymbol (String nickName, String symbol);
+  Watchlist createWatchlist(String user, String watchlistName);
+  List<Watchlist> printWatchlistNames(User userPK);      
+  StockWatchlist saveSymbols(Long watchlistId, String symbol);
+  User getUserPK(String user);   
    
 }

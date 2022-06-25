@@ -5,5 +5,5 @@ import com.tehtech.watchlist.entity.Stock;
 
 public interface StockDao {
   
-  public List<Stock> getStock(Stock stock);
+  public List<Stock> getStockList();
 }

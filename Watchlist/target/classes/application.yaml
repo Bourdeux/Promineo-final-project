@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: root
+    password: 8792
+    url: jdbc:mysql://localhost:3306/watchlist
+
+logging:
+  level:
+    root: warn
+    '[com.promineotech]': debug

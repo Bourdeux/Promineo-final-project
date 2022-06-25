@@ -11,9 +11,9 @@ public class DefaultStockService implements StockService {
    private StockDao stockDao;
    
   @Override
-  public List<Stock> getStock(Stock stock) {
+  public List<Stock> getStock() {
     
-    return stockDao.getStock(stock);
+    return stockDao.getStockList();
   }
 
 }

@@ -16,14 +16,14 @@ public class DefaultStockDao implements StockDao {
   private NamedParameterJdbcTemplate jdbcTemplate;
 
   @Override
-  public List<Stock> getStock(Stock stock) {
+  public List<Stock> getStockList() {
     String sql = ""
         + "SELECT * "
         + "FROM stock ";
                
     
     Map<String, Object> params = new HashMap<>();
-    params.put("stock", stock.toString());    
+    params.put("stock", toString());    
         
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 

@@ -10,7 +10,7 @@ public class DefaultStockController implements StockController{
   @Autowired
   private StockService stockService;
 
-  public List<Stock> getStock(Stock stock){
-    return stockService.getStock(stock);
+  public List<Stock> getStock(){
+    return stockService.getStock();
   }
 }
