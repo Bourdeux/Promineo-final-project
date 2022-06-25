@@ -1,5 +1,6 @@
 package com.tehtech.watchlist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,4 +11,9 @@ public class Stock {
   private String name;
   private String cusip;
   private float lastPrice;
+  
+  @JsonIgnore
+  public String cusip() {
+    return cusip;
+  }
 }
