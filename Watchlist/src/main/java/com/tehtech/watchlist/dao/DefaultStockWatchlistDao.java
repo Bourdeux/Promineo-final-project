@@ -32,22 +32,7 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
   
   @Autowired
   private NamedParameterJdbcTemplate jdbcTemplate;
-  private SimpleJdbcInsert simpleJdbcInsert;
   
-  /*
-   * Create new watchlist
-   */
-  public Watchlist createWatchlist(String name) {
-    SqlParams sqlParams = generateNewWatchlistSql(name);
-    
-    jdbcTemplate.update(sqlParams.sql, sqlParams.source);
-    
-    return Watchlist.builder()
-        .name(name)
-        .build();  
-   }
-  
-
   /*
    * ADD/UPDATE symbols to watchlist
    */
@@ -61,7 +46,21 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
         .watchlistId(watchlistId)
         .symbol(symbol)
         .build();
-  }     
+  }
+  
+  /*
+   * Create new watchlist for future expansion
+   */
+  public Watchlist createWatchlist(String name) {
+    SqlParams sqlParams = generateNewWatchlistSql(name);
+    
+    jdbcTemplate.update(sqlParams.sql, sqlParams.source);
+    
+    return Watchlist.builder()
+        .name(name)
+        .build();  
+   }
+  
  
   /*
    * Remove stock symbol from watchlist
