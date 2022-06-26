@@ -10,24 +10,36 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Service
+@Slf4j
 public class DefaultStockDao implements StockDao {
   
   @Autowired
   private NamedParameterJdbcTemplate jdbcTemplate;
-
+  
+  
+  /*
+   * Get list of stocks from specific Indexes
+   * this can be expanded to different indexes
+   */
   @Override
-  public List<Stock> getStockList() {
+  public List<Stock> getStockList(Indexes index) {
+    log.debug("DAO: index={}, symbol={}", index);
     String sql = ""
         + "SELECT * "
-        + "FROM stock ";
+        + "FROM stock "
+        + "WHERE index_id = :index_id ";
+               
                
     
     Map<String, Object> params = new HashMap<>();
-    params.put("stock", toString());    
+    params.put("stock", toString());
+    params.put("index_id", toString());    
         
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
@@ -35,8 +47,10 @@ public class DefaultStockDao implements StockDao {
       public Stock mapRow(ResultSet rs, int rowNum) throws SQLException {
        
         return Stock.builder()
-            .symbol(rs.getString("symbol"))
+            .symbolPK(rs.getString("symbol"))
+            .indexId(Indexes.valueOf(rs.getString("indexId")))            
             .name(rs.getString("name"))
+            .cusip(rs.getString("cusip"))
             .lastPrice(rs.getFloat("lastprice"))
             .build();
       }});

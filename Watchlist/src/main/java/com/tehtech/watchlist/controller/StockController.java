@@ -4,7 +4,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
@@ -41,7 +44,7 @@ public interface StockController {
               content = @Content(mediaType = "application/json"))
       },
       parameters = { 
-          @Parameter(name = "stock", 
+          @Parameter(name = "Index", 
               allowEmptyValue = false, 
               required = false, 
               description = "The symbol name"),         
@@ -50,5 +53,5 @@ public interface StockController {
   
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  List<Stock> getStock();
+  List<Stock> getStock(@RequestBody (required = false) Indexes index);
 }

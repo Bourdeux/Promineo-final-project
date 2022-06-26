@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Watchlist {
-  private long id;
-  private long user_pk;
+  private long id;  
   private String name;
     
   

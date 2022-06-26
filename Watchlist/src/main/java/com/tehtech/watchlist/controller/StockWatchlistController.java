@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.tehtech.watchlist.entity.StockWatchlist;
 import com.tehtech.watchlist.entity.Watchlist;
+import com.tehtech.watchlist.entity.StockRequest;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,20 +18,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 
-@OpenAPIDefinition(info = @Info(title = "Create Watchlist Service"), servers = {
+@OpenAPIDefinition(info = @Info(title = "Add symbols to watchlist"), servers = {
 @Server(url = "Http://localhost:8080", description = "Local server.")})
 @RequestMapping("/stockwatchlist")
 public interface StockWatchlistController {
   
   @Operation(
-      summary = "Create a watchlist",
-      description = "Returns created watchlist",
+      summary = "Create a watchlist of stocks",
+      description = "Returns list of stocks in watchlist",
       responses = {
           @ApiResponse(responseCode = "201", 
-              description = " The created watchlist is returned.", 
+              description = " Symbols are added", 
               content = @Content(
                   mediaType = "application/json", 
-                  schema = @Schema(implementation = Watchlist.class))),          
+                  schema = @Schema(implementation = StockWatchlist.class))),          
           @ApiResponse(
               responseCode = "400", 
               description =  "The request parameters are invalid.", 
@@ -44,7 +45,7 @@ public interface StockWatchlistController {
               content = @Content(mediaType = "application/json"))
       },
       parameters = { 
-          @Parameter(name = "createWatchlist",               
+          @Parameter(name = "stockRequest",               
               required = true, 
               description = "The watchlist as JSON")         
       }
@@ -53,7 +54,7 @@ public interface StockWatchlistController {
   
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  Watchlist createWatchlist(@RequestBody String user, String watchlistName); 
+  StockWatchlist addSymbol(@RequestBody StockRequest stockRequest); 
 
    
 }
