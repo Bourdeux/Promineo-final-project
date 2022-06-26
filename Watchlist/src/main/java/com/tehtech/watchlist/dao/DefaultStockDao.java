@@ -33,13 +33,11 @@ public class DefaultStockDao implements StockDao {
     String sql = ""
         + "SELECT * "
         + "FROM stock "
-        + "WHERE index_id = :index_id ";
-               
-               
-    
+        + "WHERE index_id = :index_id ";           
+
     Map<String, Object> params = new HashMap<>();
     params.put("stock", toString());
-    params.put("index_id", toString());    
+    params.put("index_id", index);    
         
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
@@ -48,7 +46,7 @@ public class DefaultStockDao implements StockDao {
        
         return Stock.builder()
             .symbolPK(rs.getString("symbol"))
-            .indexId(Indexes.valueOf(rs.getString("indexId")))            
+            .indexId(Indexes.valueOf(rs.getString("index_Id")))            
             .name(rs.getString("name"))
             .cusip(rs.getString("cusip"))
             .lastPrice(rs.getFloat("lastprice"))

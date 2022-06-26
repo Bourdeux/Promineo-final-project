@@ -18,15 +18,19 @@ public class DefaultStockWatchlistService implements StockWatchlistService{
   @Autowired
   private StockWatchlistDao stockWatchlistDao;    
   
-
+  @Transactional
   @Override
   public StockWatchlist addSymbol(StockRequest stockRequest) {
-    Stock indexId = getIndexId(stockRequest);
+    Watchlist watchlistId = getWatchlistId(stockRequest);
     Stock symbol = getSymbol(stockRequest);
     
-    return stockWatchlistDao.saveSymbols(indexId, symbol);
+    return stockWatchlistDao.saveSymbols(watchlistId, symbol);
   }
  
+  private Watchlist getWatchlistId(StockRequest stockRequest) {    
+    return stockWatchlistDao.fetchWatchlistId(stockRequest.getWatchlistFK());
+  }
+
   private Stock getIndexId(StockRequest stockRequest) {    
     return stockWatchlistDao.fetchIndexId(stockRequest.getIndex());      
   } 

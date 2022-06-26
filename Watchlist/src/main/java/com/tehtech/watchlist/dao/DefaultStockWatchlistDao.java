@@ -27,25 +27,40 @@ import com.tehtech.watchlist.entity.Watchlist;
 public class DefaultStockWatchlistDao implements StockWatchlistDao {
   
   @Autowired
-  private NamedParameterJdbcTemplate jdbcTemplate;  
+  private NamedParameterJdbcTemplate jdbcTemplate;
+  
+  /*
+   * Create new watchlist
+   */
+  public Watchlist createWatchlist(String name) {
+    SqlParams sqlParams = generateNewWatchlistSql(name);
+    
+    jdbcTemplate.update(sqlParams.sql, sqlParams.source);
+    
+    return Watchlist.builder()
+        .name(name)
+        .build();  
+   }
+  
 
   /*
    * ADD/UPDATE symbols to watchlist
    */
-  public StockWatchlist saveSymbols(Stock indexId, Stock symbol) {
-    SqlParams sqlParams = generateAddSymbolSql(indexId, symbol);
+  public StockWatchlist saveSymbols(Watchlist watchlistId, Stock symbol) {
+    SqlParams sqlParams = generateAddSymbolSql(watchlistId, symbol);
     
     jdbcTemplate.update(sqlParams.sql, sqlParams.source);
     
-    return StockWatchlist.builder()        
-        .stock_symbol("symbol")
+    return StockWatchlist.builder()
+        .watchlistId(watchlistId)
+        .symbol(symbol)
         .build();
   }     
  
   /*
    * Remove stock symbol from watchlist
    */
-  public StockWatchlist deleteSymbols(Long watchlistId, String symbol) {
+  public StockWatchlist deleteSymbols(Watchlist watchlistId, Stock symbol) {
     SqlParams params = new SqlParams();
     
     params.sql = ""
@@ -53,14 +68,14 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
         + "WHERE watchlist_fk = :watchlistId "
         + "AND symbol = :symbol";
     
-    params.source.addValue("watchlist_fk", watchlistId);
+    params.source.addValue("watchlistId", watchlistId);
     params.source.addValue("symbol", symbol);
     
     jdbcTemplate.update(params.sql, params.source);
     
     return StockWatchlist.builder()
         .watchlistId(watchlistId)
-        .stock_symbol(symbol)
+        .symbol(symbol)
         .build();
   }  
 
@@ -68,10 +83,10 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
   public Stock fetchIndexId(Indexes index) {
     String sql = ""
         + "SELECT * FROM stock "
-        + "WHERE indexId = :indexId";
+        + "WHERE index_id = :index_d";
     
     Map<String, Object> params = new HashMap<>();
-    params.put("indexId", index);
+    params.put("index_Id", index);
     
     return jdbcTemplate.query(sql, params, new StockResultSetExtractor());
   }
@@ -88,10 +103,39 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
     return jdbcTemplate.query(sql, params, new StockResultSetExtractor());
   }
   
+  @Override
+  public Watchlist fetchWatchlistId(long watchlistFK) {
+    String sql = ""
+        + "SELECT * FROM "
+        + "watchlist WHERE "
+        + "watchlist_pk = :watchlistFK";
+    
+    Map<String, Object> params = new HashMap<>();
+    params.put("watchlistFK", watchlistFK);
+    
+    return jdbcTemplate.query(sql, params, new WatchlistResultSetExtractor());
+  }
+  /*
+   * SQL to create new watchlist
+   */
+  private SqlParams generateNewWatchlistSql(String name) {
+    SqlParams params = new SqlParams();
+    
+    params.sql = ""
+        + "INSERT INTO watchlist "
+        + "(name"
+        + ") VALUES ("
+        + ":watchlistName)";
+    
+    params.source.addValue("watchlistName", name);
+    
+    return params;
+  }
+  
   /*
    * SQL to insert stock symbol to a watchlist
    */
-  private SqlParams generateAddSymbolSql(Stock indexId, Stock symbol) {
+  private SqlParams generateAddSymbolSql(Watchlist watchlistId, Stock symbol) {
     SqlParams params = new SqlParams();
     
     params.sql = ""
@@ -101,7 +145,7 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
         + ":indexId, :stock_symbol"
         + ")";    
     
-    params.source.addValue("watchlistId", indexId);
+    params.source.addValue("watchlistId", watchlistId);
     params.source.addValue("stock_symbol", symbol);
         
     return params;
@@ -137,5 +181,7 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
     String sql;
     MapSqlParameterSource source = new MapSqlParameterSource();
   }
+
+
 
 }

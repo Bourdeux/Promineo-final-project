@@ -44,8 +44,8 @@ public interface StockController {
               content = @Content(mediaType = "application/json"))
       },
       parameters = { 
-          @Parameter(name = "Index", 
-              allowEmptyValue = false, 
+          @Parameter(name = "Symbol", 
+              allowEmptyValue = true, 
               required = false, 
               description = "The symbol name"),         
       }
