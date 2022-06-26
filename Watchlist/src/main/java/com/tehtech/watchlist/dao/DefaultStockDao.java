@@ -27,6 +27,7 @@ public class DefaultStockDao implements StockDao {
    * Get list of stocks from specific Indexes
    * this can be expanded to different indexes
    */
+  // select index_id, name, cusip, lastprice from stock where index_id = 'DOW';
   @Override
   public List<Stock> getStockList(Indexes index) {
     log.debug("DAO: index={}, symbol={}", index);
@@ -35,16 +36,15 @@ public class DefaultStockDao implements StockDao {
         + "FROM stock "
         + "WHERE index_id = :index_id ";           
 
-    Map<String, Object> params = new HashMap<>();
-    params.put("stock", toString());
-    params.put("index_id", index);    
+    Map<String, Object> params = new HashMap<>();    
+    params.put("index_id", index.toString());    
         
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
       @Override
       public Stock mapRow(ResultSet rs, int rowNum) throws SQLException {
        
-        return Stock.builder()
+        return Stock.builder() 
             .symbolPK(rs.getString("symbol"))
             .indexId(Indexes.valueOf(rs.getString("index_Id")))            
             .name(rs.getString("name"))

@@ -35,7 +35,9 @@ values ('AAPL', 'DOW', 'APPLE INC COM', '37833100', '131.56'),
 insert into watchlist (name)
  values ('My watchlist');
 
-select * from stock where index_id = 'SPX';
+select index_id, name, cusip, lastprice from stock where index_id = 'DOW';
+
+
 
 
 

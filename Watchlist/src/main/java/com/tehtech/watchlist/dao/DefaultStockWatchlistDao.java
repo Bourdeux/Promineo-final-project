@@ -1,5 +1,6 @@
 package com.tehtech.watchlist.dao;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -10,11 +11,13 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
 import com.tehtech.watchlist.entity.StockWatchlist;
 import com.tehtech.watchlist.entity.Watchlist;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * This class will:
@@ -23,11 +26,13 @@ import com.tehtech.watchlist.entity.Watchlist;
  * - add/remove symbols to watchlist (update)
  * - delete watchlist
  */
+@Slf4j
 @Component
 public class DefaultStockWatchlistDao implements StockWatchlistDao {
   
   @Autowired
   private NamedParameterJdbcTemplate jdbcTemplate;
+  private SimpleJdbcInsert simpleJdbcInsert;
   
   /*
    * Create new watchlist
@@ -47,9 +52,10 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
    * ADD/UPDATE symbols to watchlist
    */
   public StockWatchlist saveSymbols(Watchlist watchlistId, Stock symbol) {
-    SqlParams sqlParams = generateAddSymbolSql(watchlistId, symbol);
+    log.debug("add symbols method called: watchlistId={}, symbol={}", watchlistId, symbol);
+    SqlParams sqlParams = generateAddSymbolSql(watchlistId, symbol);    
     
-    jdbcTemplate.update(sqlParams.sql, sqlParams.source);
+    jdbcTemplate.execute(sqlParams.sql.toString(),null);
     
     return StockWatchlist.builder()
         .watchlistId(watchlistId)

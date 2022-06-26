@@ -16,7 +16,7 @@ public class DefaultStockWatchlistController implements StockWatchlistController
 
   @Override
   public StockWatchlist addSymbol(StockRequest stockRequest) {
-    log.debug("Watchlist={}", stockRequest);
+    log.debug("stockRequest={}", stockRequest);
     return stockWatchlistService.addSymbol(stockRequest);
   }  
   
