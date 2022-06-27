@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Stock {
-  private String symbolPK;
+  private String symbolPK;  //change to char
   private Indexes indexId;
   private String name;
   private String cusip;

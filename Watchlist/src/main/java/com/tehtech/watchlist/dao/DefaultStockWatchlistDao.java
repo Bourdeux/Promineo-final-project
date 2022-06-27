@@ -36,11 +36,12 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
   /*
    * ADD/UPDATE symbols to watchlist
    */
+  @Override
   public StockWatchlist saveSymbols(Watchlist watchlistId, Stock symbol) {
-    log.debug("add symbols method called: watchlistId={}, symbol={}", watchlistId, symbol);
+    log.error("add symbols method called: watchlistId={}, symbol={}", watchlistId, symbol);
     SqlParams sqlParams = generateAddSymbolSql(watchlistId, symbol);    
     
-    jdbcTemplate.execute(sqlParams.sql.toString(),null);
+    jdbcTemplate.update(sqlParams.sql, sqlParams.source);
     
     return StockWatchlist.builder()
         .watchlistId(watchlistId)
@@ -63,8 +64,8 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
   
  
   /*
-   * Remove stock symbol from watchlist
-   */
+   * Remove stock symbol from watchlist   */
+  
   public StockWatchlist deleteSymbols(Watchlist watchlistId, Stock symbol) {
     SqlParams params = new SqlParams();
     
@@ -109,14 +110,14 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
   }
   
   @Override
-  public Watchlist fetchWatchlistId(long watchlistFK) {
+  public Watchlist fetchWatchlistId(String watchlistName) {
     String sql = ""
         + "SELECT * FROM "
         + "watchlist WHERE "
-        + "watchlist_pk = :watchlistFK";
+        + "watchlist_pk = :watchlist_pk";
     
     Map<String, Object> params = new HashMap<>();
-    params.put("watchlistFK", watchlistFK);
+    params.put("watchlist_pk", watchlistName);
     
     return jdbcTemplate.query(sql, params, new WatchlistResultSetExtractor());
   }

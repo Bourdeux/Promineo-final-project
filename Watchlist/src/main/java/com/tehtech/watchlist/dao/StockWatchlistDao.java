@@ -10,7 +10,7 @@ public interface StockWatchlistDao {
   
   Stock fetchIndexId(Indexes index);
   Stock fetchSymbol(String symbol);
-  Watchlist fetchWatchlistId(long watchlistFK);
+  Watchlist fetchWatchlistId(String watchlistName);
   public StockWatchlist saveSymbols(Watchlist watchlistId, Stock symbol);
   
    

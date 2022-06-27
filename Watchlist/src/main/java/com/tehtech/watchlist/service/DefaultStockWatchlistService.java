@@ -18,7 +18,7 @@ public class DefaultStockWatchlistService implements StockWatchlistService{
   @Autowired
   private StockWatchlistDao stockWatchlistDao;    
   
-  //@Transactional
+  @Transactional
   @Override
   public StockWatchlist addSymbol(StockRequest stockRequest) {
     Watchlist watchlistId = getWatchlistId(stockRequest);
@@ -28,7 +28,7 @@ public class DefaultStockWatchlistService implements StockWatchlistService{
   }
  
   private Watchlist getWatchlistId(StockRequest stockRequest) {    
-    return stockWatchlistDao.fetchWatchlistId(stockRequest.getWatchlistFK());
+    return stockWatchlistDao.fetchWatchlistId(stockRequest.getWatchlistName());
   }
 
   private Stock getIndexId(StockRequest stockRequest) {    

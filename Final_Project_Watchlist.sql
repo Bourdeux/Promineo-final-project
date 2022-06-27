@@ -33,7 +33,7 @@ values ('AAPL', 'DOW', 'APPLE INC COM', '37833100', '131.56'),
 ('WMT', 'DOW', 'WALMART INC COM', '931142103', '118.29');
 
 insert into watchlist (name)
- values ('My watchlist');
+ values ('Watchlist One');
 
 select index_id, name, cusip, lastprice from stock where index_id = 'DOW';
 
