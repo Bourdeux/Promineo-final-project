@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Service
-@Slf4j
 public class DefaultStockDao implements StockDao {
   
   @Autowired
@@ -27,18 +26,17 @@ public class DefaultStockDao implements StockDao {
    * Get list of stocks from specific Indexes
    * this can be expanded to different indexes
    */
-  // select index_id, name, cusip, lastprice from stock where index_id = 'DOW';
+ 
   @Override
-  public List<Stock> getStockList(Indexes index) {
-    log.debug("DAO: index={}, symbol={}", index);
+  public List<Stock> getStockList(Indexes index) {   
     String sql = ""
         + "SELECT * "
         + "FROM stock "
-        + "WHERE index_id = :index_id ";           
+        + "WHERE index_id = :index_id";
+    
+    Map<String, Object> params = new HashMap<>();
+    params.put("index_id", index.toString());
 
-    Map<String, Object> params = new HashMap<>();    
-    params.put("index_id", index.toString());    
-        
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
       @Override

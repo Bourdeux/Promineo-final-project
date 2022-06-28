@@ -35,7 +35,11 @@ values ('AAPL', 'DOW', 'APPLE INC COM', '37833100', '131.56'),
 insert into watchlist (name)
  values ('Watchlist One');
 
-select index_id, name, cusip, lastprice from stock where index_id = 'DOW';
+select * from watchlist where name = "Watchlist One";
+
+delete from WATCHLIST where NAME = 'watchlist two';
+
+insert into stockwatchlist (watchlist_fk, STOCK_SYMBOL) values (1, 'WMT');
 
 
 

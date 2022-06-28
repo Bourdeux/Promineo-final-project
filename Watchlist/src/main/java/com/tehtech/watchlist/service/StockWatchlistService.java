@@ -6,6 +6,7 @@ import com.tehtech.watchlist.entity.StockWatchlist;
 
 public interface StockWatchlistService {  
   
-  public StockWatchlist addSymbol(StockRequest stockRequest);
+  StockWatchlist addSymbolsToWatchlist(StockRequest addRequest);
+  void deleteSymbolFromWatchlist(StockRequest deleteRequest);
   
 }

@@ -6,17 +6,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
 import com.tehtech.watchlist.service.StockService;
-import lombok.extern.slf4j.Slf4j;
+
 
 @RestController
-@Slf4j
 public class DefaultStockController implements StockController{
   
   @Autowired
   private StockService stockService;
 
   public List<Stock> getStock(Indexes index){
-    log.info("Indexes {}", index);
+    
     return stockService.getStock(index);
   }
 }

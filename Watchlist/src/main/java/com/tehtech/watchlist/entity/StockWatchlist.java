@@ -8,13 +8,12 @@ import lombok.Data;
 @Builder
 public class StockWatchlist {
   private long id;
-  private Watchlist watchlistId;
-  private Stock symbol;
+  private long watchlistFK;
+  private String symbol;
   
   @JsonIgnore
   public Long id() {
-    return id;
-   
+    return id;   
   }
 }
 

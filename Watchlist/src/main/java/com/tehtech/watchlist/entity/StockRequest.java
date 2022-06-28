@@ -12,12 +12,10 @@ public class StockRequest {
   @NotNull
   @Length(max = 30)
   @Pattern(regexp = "[\\w\\s]*")
-  private String watchlistName;
-  
-  private Indexes index;
+  private String watchlistName;  
   
   @NotNull
-  @Length(max = 30)
+  @Length(max = 5)
   @Pattern(regexp = "[\\w\\s]*")
   private String symbol;
 }

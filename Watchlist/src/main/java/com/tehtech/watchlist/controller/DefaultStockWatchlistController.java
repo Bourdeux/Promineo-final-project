@@ -15,10 +15,16 @@ public class DefaultStockWatchlistController implements StockWatchlistController
   private StockWatchlistService stockWatchlistService;
 
   @Override
-  public StockWatchlist addSymbol(StockRequest stockRequest) {
-    log.debug("stockRequest={}", stockRequest);
-    return stockWatchlistService.addSymbol(stockRequest);
-  }  
+  public StockWatchlist addSymbolsToWatchlist(StockRequest addRequest) {
+    log.debug("stockRequest={}", addRequest);
+    return stockWatchlistService.addSymbolsToWatchlist(addRequest);
+  }
+  
+  @Override
+  public void deleteSymbolFromWatchlist(StockRequest deleteRequest) {
+    log.debug("stockRequest={}", deleteRequest);
+    stockWatchlistService.deleteSymbolFromWatchlist(deleteRequest);
+  }
   
 
 }

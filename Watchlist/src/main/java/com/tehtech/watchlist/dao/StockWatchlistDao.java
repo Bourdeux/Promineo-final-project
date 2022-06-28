@@ -1,17 +1,16 @@
 package com.tehtech.watchlist.dao;
 
-import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
 import com.tehtech.watchlist.entity.StockWatchlist;
 import com.tehtech.watchlist.entity.Watchlist;
 
 
-public interface StockWatchlistDao {         
+public interface StockWatchlistDao {       
   
-  Stock fetchIndexId(Indexes index);
-  Stock fetchSymbol(String symbol);
-  Watchlist fetchWatchlistId(String watchlistName);
-  public StockWatchlist saveSymbols(Watchlist watchlistId, Stock symbol);
-  
+  StockWatchlist saveSymbolsToWatchlist(long watchlistFK, String symbol);
+  void deleteSymbolFromWatchlist(long watchlistFK, String stockSymbol);
+  Stock fetchSymbol(String request);
+  Watchlist fetchWatchlistFK(String request);
+    
    
 }

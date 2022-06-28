@@ -1,5 +1,6 @@
 package com.tehtech.watchlist.controller;
 
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
@@ -44,14 +44,14 @@ public interface StockController {
               content = @Content(mediaType = "application/json"))
       },
       parameters = { 
-          @Parameter(name = "Symbol", 
-              allowEmptyValue = true, 
+          @Parameter(name = "index", 
+              allowEmptyValue = false, 
               required = false, 
-              description = "The symbol name"),         
+              description = "Index Name (i.e., DOW)"),         
       }
-   )
+   )  
   
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  List<Stock> getStock(@RequestBody (required = false) Indexes index);
+  List<Stock> getStock(@RequestParam Indexes index);
 }
