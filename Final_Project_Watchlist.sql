@@ -32,14 +32,9 @@ values ('AAPL', 'DOW', 'APPLE INC COM', '37833100', '131.56'),
 ('WBA', 'DOW', 'WALGREENS BOOTS ALLIANCE INC COM', '931427108', '39.32'),
 ('WMT', 'DOW', 'WALMART INC COM', '931142103', '118.29');
 
-insert into watchlist (name)
- values ('Watchlist One');
 
-select * from watchlist where name = "Watchlist One";
 
-delete from WATCHLIST where NAME = 'watchlist two';
 
-insert into stockwatchlist (watchlist_fk, STOCK_SYMBOL) values (1, 'WMT');
 
 
 

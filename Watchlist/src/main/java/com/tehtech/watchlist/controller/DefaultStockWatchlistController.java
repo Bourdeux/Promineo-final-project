@@ -1,5 +1,6 @@
 package com.tehtech.watchlist.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.tehtech.watchlist.entity.StockRequest;
@@ -25,6 +26,8 @@ public class DefaultStockWatchlistController implements StockWatchlistController
     log.debug("stockRequest={}", deleteRequest);
     stockWatchlistService.deleteSymbolFromWatchlist(deleteRequest);
   }
-  
-
+  @Override
+  public List<StockWatchlist> createdWatchlist (StockRequest readRequest){
+    return stockWatchlistService.checkWatchlist(readRequest);
+  }
 }

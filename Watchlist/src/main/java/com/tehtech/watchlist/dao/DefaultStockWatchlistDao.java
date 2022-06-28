@@ -12,16 +12,14 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import com.tehtech.watchlist.entity.Indexes;
 import com.tehtech.watchlist.entity.Stock;
-import com.tehtech.watchlist.entity.StockRequest;
 import com.tehtech.watchlist.entity.StockWatchlist;
 import com.tehtech.watchlist.entity.Watchlist;
-import lombok.extern.slf4j.Slf4j;
+
 
 /*
  * This class will:
@@ -99,7 +97,30 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
     
     jdbcTemplate.update(sql, params);   
     
-  }  
+  }
+  
+  public List<StockWatchlist> checkWatchlist(long watchlistFK){
+    SqlParams sqlParams = new SqlParams();
+    
+    sqlParams.sql = ""
+        + "SELECT watchlist.name, stock.symbol "
+        + "FROM watchlist, stockwatchlist, stock "
+        + "WHERE watchlist_pk = stockwatchlist.watchlist_fk "
+        + "AND stockwatchlist.watchlist_fk = :watchlistFK "
+        + "AND stockwatchlist.stock_symbol  = stock.symbol";
+    
+    Map <String,Object> params = new HashMap<>();
+    params.put("watchlistFK", watchlistFK);
+    
+    return jdbcTemplate.query(sqlParams.sql, params, new RowMapper<>() {
+
+      @Override
+      public StockWatchlist mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return StockWatchlist.builder()
+            .symbol(rs.getString("symbol"))
+            .build(); 
+      }});
+  }
   
   @Override
   public Stock fetchSymbol(String symbol) {

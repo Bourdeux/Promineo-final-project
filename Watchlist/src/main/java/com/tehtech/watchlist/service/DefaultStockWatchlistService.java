@@ -1,5 +1,7 @@
 package com.tehtech.watchlist.service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,28 +24,46 @@ public class DefaultStockWatchlistService implements StockWatchlistService{
   @Override
   public StockWatchlist addSymbolsToWatchlist(StockRequest addRequest) {
     
-    Watchlist watchlistFK = getWatchlistFK(addRequest);
-    log.debug("Returned watchlistFK={}", watchlistFK);
-    
-    Stock stockSymbol = getSymbol(addRequest);
-    log.debug("Returned symbolName={}", stockSymbol);
+    Watchlist watchlistFK = getWatchlistFK(addRequest);    
+    Stock stockSymbol = getSymbol(addRequest);    
+    log.debug("Returned watchlistFK={} symbolName={}", watchlistFK, stockSymbol);    
     
     return stockWatchlistDao.saveSymbolsToWatchlist(watchlistFK.getId(), stockSymbol.getSymbolPK());
   }
   
   public void deleteSymbolFromWatchlist(StockRequest deleteRequest) {
+    
     Watchlist watchlistFK = getWatchlistFK(deleteRequest);
-    Stock stockSymbol = getSymbol(deleteRequest);
+    Stock stockSymbol = getSymbol(deleteRequest);    
+    log.debug("Returned watchlistFK={} symbolName={}", watchlistFK, stockSymbol);
     
     stockWatchlistDao.deleteSymbolFromWatchlist(watchlistFK.getId(), stockSymbol.getSymbolPK());
-    System.out.println("Symbol Deleted");
+    System.out.println("Symbol " + stockSymbol + "deleted!");
   }
- 
-  private Watchlist getWatchlistFK(StockRequest request) {    
+  
+  @Override
+  public List<StockWatchlist> checkWatchlist(StockRequest readRequest){
+    Watchlist watchlistFK = getWatchlistFK(readRequest);
+    return stockWatchlistDao.checkWatchlist(watchlistFK.getId());
+  }
+  
+  /*
+   * Converts string to primary keys
+   */
+  private Watchlist getWatchlistFK(StockRequest request) {
+    if(request.getWatchlistName().isEmpty()) {
+      throw new NoSuchElementException("Watchlist does not exist!"); 
+    }
     return stockWatchlistDao.fetchWatchlistFK(request.getWatchlistName());
   }
   
-  private Stock getSymbol(StockRequest request) {    
+  /*
+   * Converts string to primary keys
+   */
+  private Stock getSymbol(StockRequest request) {
+    if(request.getSymbol().isEmpty()) {
+      throw new NoSuchElementException("No symbol found!"); 
+    }
     return  stockWatchlistDao.fetchSymbol(request.getSymbol());         
   }
 
