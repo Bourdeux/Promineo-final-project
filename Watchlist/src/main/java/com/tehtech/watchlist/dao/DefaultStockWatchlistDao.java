@@ -43,9 +43,7 @@ public class DefaultStockWatchlistDao implements StockWatchlistDao {
     
     KeyHolder keyHolder = new GeneratedKeyHolder();    
     
-    jdbcTemplate.update(sqlParams.sql, sqlParams.source, keyHolder);
-  
-    if(jdbcTemplate.update(sqlParams.sql, sqlParams.source) == 0) {
+    if (jdbcTemplate.update(sqlParams.sql, sqlParams.source, keyHolder) == 0) {    
       throw new InvalidParameterException("No watchlist/symbol found!");
     }
     

@@ -81,11 +81,11 @@ public interface StockWatchlistController {
   void deleteSymbolFromWatchlist(StockRequest deleteRequest);
   
   @Operation(
-      summary = "Delete a symbol from watchlist",
-      description = "Remove stocks in watchlist",
+      summary = "Get a list of symbols from created watchlist",
+      description = "Track stocks in watchlist",
       responses = {
           @ApiResponse(responseCode = "201", 
-              description = " Symbols are deleted", 
+              description = "Stocks in watchlist", 
               content = @Content(
                   mediaType = "application/json", 
                   schema = @Schema(implementation = StockWatchlist.class))),          
@@ -95,7 +95,7 @@ public interface StockWatchlistController {
               content = @Content(mediaType = "application/json")), 
           @ApiResponse(
               responseCode = "404", 
-              description =  "A symbol was not found with the input criteria", 
+              description =  "A watchlist was not found with the input criteria", 
               content = @Content(mediaType = "application/json")),
           @ApiResponse(responseCode = "500", 
               description =  "An unplanned error occured.", 
